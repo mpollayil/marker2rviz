@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<launch>
+
+  <!-- Static TF for Marker Frame -->
+  <arg name="use_static_tf"         default="false"/>
+
+  <!-- Marker Publisher -->
+  <node name="marker2rviz" pkg="marker2rviz" type="marker2rviz" output="screen">
+  </node>
+
+  <!-- Static TF for Marker Frame if needed -->
+  <group if="$(arg use_static_tf)">
+    <node name="marker_tf" pkg="tf2_ros" type="static_transform_publisher" args="1 2 3 0 0 0  base marker_frame"/>
+  </group>
+
+  <!-- TF publisher for Marker Frame if needed -->
+  <group unless="$(arg use_static_tf)">
+    <node name="marker_publisher" pkg="marker2rviz" type="frame_publisher.py" output="screen"/>
+  </group>
+
+</launch>
